@@ -1,0 +1,14 @@
+driver:
+  name: vagrant
+  
+  provisioner:
+  name: chef_solo
+
+platforms:
+  - name: bento/centos-6.8
+
+suites:
+  - name: default
+    run_list:
+      - recipe[jira::nginx]
+    attributes:
