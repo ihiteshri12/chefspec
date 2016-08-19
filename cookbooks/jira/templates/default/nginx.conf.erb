@@ -1,0 +1,66 @@
+user nginx;
+worker_processes 4;
+events {
+	worker_connections 1024;
+	# multi_accept on;
+}
+http {
+	##
+	# Basic Settings
+	##
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 10 10;
+	types_hash_max_size 2048;
+	client_header_timeout 60;
+	client_body_timeout 60;
+	client_max_body_size 2048m;
+	reset_timedout_connection on;
+	server_tokens off;
+	# Cache information about:
+	# - open file descriptors and their info
+	# - existence of directories
+	# - file lookup errors
+	open_file_cache max=1000 inactive=2h;
+	open_file_cache_min_uses 1;
+	open_file_cache_valid 1h;
+	open_file_cache_errors on;
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+	##
+	# Logging Settings
+	##
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+	##
+	# Gzip Settings
+	##
+	#gzip on;
+	#gzip_disable "msie6";
+	#gzip_min_length 1100;
+	#gzip_vary on;
+	#gzip_proxied any;
+	# gzip_comp_level 6;
+	#gzip_buffers 16 8k;
+	# gzip_http_version 1.1;
+	#gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+	##
+	# nginx-naxsi config
+	##
+	# Uncomment it if you installed nginx-naxsi
+	##
+	#include /etc/nginx/naxsi_core.rules;
+	##
+	# nginx-passenger config
+	##
+	# Uncomment it if you installed nginx-passenger
+	##
+	#passenger_root /usr;
+	#passenger_ruby /usr/bin/ruby;
+	##
+	# Virtual Host Configs
+	##
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
